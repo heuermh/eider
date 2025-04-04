@@ -38,8 +38,20 @@ $ export PATH=$PATH:`pwd`/target/appassembler/bin
 
 ```bash
 $ eider --help
-...
+USAGE
+  eider [-hV] [--skip-history] [--verbose] [-i=<queryPath>] [-q=<query>] [COMMAND]
 
+OPTIONS
+      --skip-history             Skip writing query to history file.
+  -q, --query=<query>            Inline SQL query, if any.
+  -i, --query-path=<queryPath>   SQL query input path, default stdin.
+      --verbose                  Show additional logging messages.
+  -h, --help                     Show this help message and exit.
+  -V, --version                  Print version information and exit.
+
+COMMANDS
+  help                 Display help information about the specified command.
+  generate-completion  Generate bash/zsh completion script for eider.
 ```
 
 ### Environment variables
