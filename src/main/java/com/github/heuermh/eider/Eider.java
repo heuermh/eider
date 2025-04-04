@@ -15,6 +15,8 @@
  */
 package com.github.heuermh.eider;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import static org.dishevelled.compress.Readers.reader;
 
 import java.io.BufferedReader;
@@ -22,10 +24,19 @@ import java.io.IOException;
 
 import java.nio.file.Path;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+import java.time.Duration;
+
 import java.util.Arrays;
 import java.util.List;
 
 import java.util.concurrent.Callable;
+
+import com.google.common.base.Splitter;
+import com.google.common.base.Stopwatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +45,7 @@ import picocli.AutoComplete.GenerateCompletion;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.HelpCommand;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.ScopeType;
 
 /**
@@ -56,16 +68,19 @@ import picocli.CommandLine.ScopeType;
 )
 public final class Eider implements Callable<Integer> {
 
-    @picocli.CommandLine.Option(names = { "--skip-history" })
-    private boolean skipHistory;
+    @Option(names = { "-u", "--url" })
+    private String url = "jdbc:duckdb:";
 
-    @picocli.CommandLine.Option(names = { "-q", "--query" })
+    @Option(names = { "-q", "--query" })
     private String query;
 
-    @picocli.CommandLine.Option(names = { "-i", "--query-path" })
+    @Option(names = { "-i", "--query-path" })
     private Path queryPath;
 
-    @picocli.CommandLine.Option(names = { "--verbose" })
+    @Option(names = { "--skip-history" })
+    private boolean skipHistory;
+
+    @Option(names = { "--verbose" })
     private boolean verbose;
 
     /** History file. */
@@ -89,6 +104,33 @@ public final class Eider implements Callable<Integer> {
             historyFile.append(query);
         }
 
+        // connect to DuckDB
+        Class.forName("org.duckdb.DuckDBDriver");
+        try (Connection connection = DriverManager.getConnection(url)) {
+            Stopwatch total = Stopwatch.createUnstarted();
+            try (Statement statement = connection.createStatement()) {
+
+                // split query into subqueries by `;`
+                Stopwatch perStatement = Stopwatch.createUnstarted();
+                for (String sql : Splitter.on(';').trimResults().omitEmptyStrings().split(query)) {
+
+                    logger.info("Executing SQL subquery \"{}\"...", abbreviate(sql));
+                    total.start();
+                    perStatement.start();
+
+                    // execute statement
+                    statement.execute(sql);
+
+                    perStatement.stop();
+                    total.stop();
+                    logger.info("Executed in {}", format(perStatement.elapsed()));
+
+                    perStatement.reset();
+                }
+            }
+            logger.info("Total elapsed {}", format(total.elapsed()));
+        }
+
         return 0;
     }
 
@@ -98,7 +140,7 @@ public final class Eider implements Callable<Integer> {
      *
      * @return the query read from the <code>queryPath</code> option
      */
-    String readQueryPath() throws IOException {
+    private String readQueryPath() throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = reader(queryPath)) {
             while (reader.ready()) {
@@ -114,6 +156,45 @@ public final class Eider implements Callable<Integer> {
         return sb.toString().trim().replace("\\s+", " ");
     }
 
+
+    /**
+     * Abbreviate the specified value for log messages.
+     *
+     * @param value value to abbreviate for log messages
+     * @return the specified value abbreviated for log messages
+     */
+    private static String abbreviate(final String value) {
+        checkNotNull(value);
+        if (value.length() < 35) {
+            return value;
+        }
+        return value.substring(0, 32) + "...";
+    }
+
+    /**
+     * Format the specified duration for log messages.
+     *
+     * @param duration duration to format, must not be null
+     * @return the specified duration formatted for log messages
+     */
+    private static String format(final Duration duration) {
+        checkNotNull(duration);
+        StringBuilder sb = new StringBuilder();
+        long h = duration.toHours();
+        if (h > 0) {
+            sb.append(h);
+            sb.append("h ");
+        }
+        long m = duration.toMinutesPart();
+        if (h > 0 || m > 0) {
+            sb.append(m);
+            sb.append("m ");
+        }
+        sb.append(duration.toSecondsPart());
+        sb.append("."); // todo: i18n
+        sb.append(String.format("%03ds", duration.toMillisPart()));
+        return sb.toString();
+    }
 
     /**
      * Main.

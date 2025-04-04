@@ -39,12 +39,13 @@ $ export PATH=$PATH:`pwd`/target/appassembler/bin
 ```bash
 $ eider --help
 USAGE
-  eider [-hV] [--skip-history] [--verbose] [-i=<queryPath>] [-q=<query>] [COMMAND]
+  eider [-hV] [--skip-history] [--verbose] [-i=<queryPath>] [-q=<query>] [-u=<url>] [COMMAND]
 
 OPTIONS
-      --skip-history             Skip writing query to history file.
+  -u, --url=<url>                JDBC connection URL, defaults to "jdbc:duckdb:".
   -q, --query=<query>            Inline SQL query, if any.
   -i, --query-path=<queryPath>   SQL query input path, default stdin.
+      --skip-history             Skip writing query to history file.
       --verbose                  Show additional logging messages.
   -h, --help                     Show this help message and exit.
   -V, --version                  Print version information and exit.
