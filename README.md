@@ -4,10 +4,11 @@ Command line tools for [DuckDB](https://duckdb.org).
 
 <br/>
 
-![eider project logo](https://github.com/heuermh/eider/raw/main/images/eider.jpg)
-
+![Photo of Polysticta stelleri, by Ray Hennessy](/images/eider.jpg)
 Photo from https://www.rayhennessy.com
 
+
+## Etymology
 
 > Steller's eider (_Polysticta stelleri_) is a migrating Arctic diving duck that breeds
 > along the coastlines of Alaska. It is the rarest, smallest, and fastest flying of the
