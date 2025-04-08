@@ -88,7 +88,7 @@ $ eider \
 
 `${key}`-style placeholders in SQL query templates can be replaced at runtime via the `-p/--parameters` option
 ```bash
-$ echo "SELECT ${column} from ${table}" > template.sql
+$ echo "SELECT ${column} FROM ${table}" > template.sql
 
 $ eider \
    ... \
