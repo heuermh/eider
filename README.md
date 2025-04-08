@@ -39,24 +39,24 @@ $ export PATH=$PATH:`pwd`/target/appassembler/bin
 ```bash
 $ eider --help
 USAGE
-  eider [-hV] [--skip-history] [--verbose] [-i=<queryPath>] [-q=<query>] [-u=<url>] [COMMAND]
+  eider [-hV] [--preserve-whitespace] [--skip-history] [--verbose] [-i=<queryPath>] [-q=<query>] [-u=<url>] [-p=<String=String>]...
+        [COMMAND]
 
 OPTIONS
-  -u, --url=<url>                JDBC connection URL, defaults to "jdbc:duckdb:".
-  -q, --query=<query>            Inline SQL query, if any.
-  -i, --query-path=<queryPath>   SQL query input path, default stdin.
-      --preserve-whitespace      Preserve whitespace in SQL query.
-      --skip-history             Skip writing query to history file.
-      --verbose                  Show additional logging messages.
-  -h, --help                     Show this help message and exit.
-  -V, --version                  Print version information and exit.
+  -u, --url=<url>                    JDBC connection URL, defaults to "jdbc:duckdb:".
+  -q, --query=<query>                Inline SQL query, if any.
+  -i, --query-path=<queryPath>       SQL query input path, default stdin.
+  -p, --parameters=<String=String>   Query template parameters, in KEY=VALUE format. Specify multiple times if necessary.
+      --preserve-whitespace          Preserve whitespace in SQL query.
+      --skip-history                 Skip writing query to history file.
+      --verbose                      Show additional logging messages.
+  -h, --help                         Show this help message and exit.
+  -V, --version                      Print version information and exit.
 
 COMMANDS
   help                 Display help information about the specified command.
   generate-completion  Generate bash/zsh completion script for eider.
 ```
-
-### Environment variables
 
 
 ### SQL queries
@@ -83,7 +83,21 @@ $ eider \
     --query-path query.sql
 ```
 
-### Execution parameters
+
+### Template parameters
+
+`${key}`-style placeholders in SQL query templates can be replaced at runtime via the `-p/--parameters` option
+```bash
+$ echo "SELECT ${column} from ${table}" > template.sql
+
+$ eider \
+   ... \
+   --parameters column=foo \
+   --parameters table=bar \
+   --query-path template.sql
+```
+
+Note the `-p/--parameters` option can be specified multiple times if necessary.
 
 
 ### SQL query history file

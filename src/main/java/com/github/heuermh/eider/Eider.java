@@ -32,6 +32,7 @@ import java.time.Duration;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import java.util.concurrent.Callable;
 
@@ -76,6 +77,9 @@ public final class Eider implements Callable<Integer> {
 
     @Option(names = { "-i", "--query-path" })
     private Path queryPath;
+
+    @Option(names = { "-p", "--parameters" }, mapFallbackValue = "")
+    private Map<String, String> parameters;
 
     @Option(names = { "--preserve-whitespace" })
     private boolean preserveWhitespace;
@@ -156,7 +160,11 @@ public final class Eider implements Callable<Integer> {
             logger.error("Unable to read SQL from {}", queryPath == null ? "<stdin>" : queryPath);
             throw e;
         }
-        return preserveWhitespace ? sb.toString().trim() : sb.toString().trim().replaceAll("\\s{2,}", " ");
+        String template = sb.toString().trim();
+        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+            template = template.replaceAll("\\$\\{" + parameter.getKey() + "\\}", parameter.getValue());
+        }
+        return preserveWhitespace ? template : template.replaceAll("\\s{2,}", " ");
     }
 
 
