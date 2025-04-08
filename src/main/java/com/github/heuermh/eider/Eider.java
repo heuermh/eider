@@ -77,6 +77,9 @@ public final class Eider implements Callable<Integer> {
     @Option(names = { "-i", "--query-path" })
     private Path queryPath;
 
+    @Option(names = { "--preserve-whitespace" })
+    private boolean preserveWhitespace;
+
     @Option(names = { "--skip-history" })
     private boolean skipHistory;
 
@@ -146,14 +149,14 @@ public final class Eider implements Callable<Integer> {
             while (reader.ready()) {
                 String line = reader.readLine();
                 sb.append(line);
-                sb.append(" ");
+                sb.append(preserveWhitespace ? "\n" : " ");
             }
         }
         catch (IOException e) {
             logger.error("Unable to read SQL from {}", queryPath == null ? "<stdin>" : queryPath);
             throw e;
         }
-        return sb.toString().trim().replace("\\s+", " ");
+        return preserveWhitespace ? sb.toString().trim() : sb.toString().trim().replaceAll("\\s{2,}", " ");
     }
 
 

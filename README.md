@@ -45,6 +45,7 @@ OPTIONS
   -u, --url=<url>                JDBC connection URL, defaults to "jdbc:duckdb:".
   -q, --query=<query>            Inline SQL query, if any.
   -i, --query-path=<queryPath>   SQL query input path, default stdin.
+      --preserve-whitespace      Preserve whitespace in SQL query.
       --skip-history             Skip writing query to history file.
       --verbose                  Show additional logging messages.
   -h, --help                     Show this help message and exit.
