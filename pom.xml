@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.dishevelled</groupId>
     <artifactId>dsh-parent</artifactId>
-    <version>50</version>
+    <version>51-SNAPSHOT</version>
   </parent>
   <groupId>com.github.heuermh.eider</groupId>
   <artifactId>eider</artifactId>
@@ -30,8 +30,8 @@
     <url>https://github.com/heuermh/eider/issues</url>
   </issueManagement>
   <properties>
-    <dsh-compress.version>1.7</dsh-compress.version>
-    <duckdb.version>1.2.1</duckdb.version>
+    <dsh-compress.version>1.8-SNAPSHOT</dsh-compress.version>
+    <duckdb.version>1.2.2.0</duckdb.version>
     <jdk.version>17</jdk.version>
     <maven.enforcer.maven-version>[3.6.3,)</maven.enforcer.maven-version>
     <maven.enforcer.jdk-version>[17,)</maven.enforcer.jdk-version>
