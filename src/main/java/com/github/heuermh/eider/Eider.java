@@ -161,8 +161,10 @@ public final class Eider implements Callable<Integer> {
             throw e;
         }
         String template = sb.toString().trim();
-        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-            template = template.replaceAll("\\$\\{" + parameter.getKey() + "\\}", parameter.getValue());
+        if (parameters != null) {
+            for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+                template = template.replaceAll("\\$\\{" + parameter.getKey() + "\\}", parameter.getValue());
+            }
         }
         return preserveWhitespace ? template : template.replaceAll("\\s{2,}", " ");
     }
