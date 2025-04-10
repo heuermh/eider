@@ -4,11 +4,11 @@ process EIDER {
   container "eider-local"
 
   output:
-  path "out.csv", emit: csv
+  path "out.parquet", emit: parquet
 
   script:
   '''
-  eider --verbose --query "COPY(SELECT 1) TO 'out.csv'"
+  eider --verbose --query "COPY(SELECT 1 AS value) TO 'out.parquet' (FORMAT parquet, COMPRESSION zstd)"
   '''
 }
 
