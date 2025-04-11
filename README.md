@@ -116,3 +116,23 @@ $ eider \
 $ cat ~/.eider_history
 SELECT * FROM table LIMIT 4
 ```
+
+
+## Installing eider via Conda
+
+`eider` is available in Conda via Bioconda, https://bioconda.github.io
+
+```bash
+$ conda install eider
+```
+
+
+## Installing eider via Docker
+
+`eider` is available in Docker via BioContainers, https://biocontainers.pro
+
+```bash
+$ docker pull quay.io/biocontainers/eider:{tag}
+```
+
+Find `{tag}` on the tag search page, https://quay.io/repository/biocontainers/eider?tab=tags
