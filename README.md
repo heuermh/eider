@@ -118,7 +118,9 @@ SELECT * FROM table LIMIT 4
 ```
 
 
-## Installing eider via Conda
+## Installing eider
+
+### Installing eider via Conda
 
 `eider` is available in Conda via Bioconda, https://bioconda.github.io
 
@@ -127,7 +129,7 @@ $ conda install eider
 ```
 
 
-## Installing eider via Docker
+### Installing eider via Docker
 
 `eider` is available in Docker via BioContainers, https://biocontainers.pro
 
