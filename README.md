@@ -129,6 +129,16 @@ $ conda install eider
 ```
 
 
+### Installing eider via Homebrew
+
+`eider` is available in Homebrew via the `homebrew-parquet-tools` tap, https://github.com/heuermh/homebrew-parquet-tools
+
+```bash
+$ brew tap heuermh/parquet-tools
+$ brew install eider
+```
+
+
 ### Installing eider via Docker
 
 `eider` is available in Docker via BioContainers, https://biocontainers.pro
