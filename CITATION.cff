@@ -1,0 +1,18 @@
+title: eider
+authors:
+  - given-names: Michael
+    family-names: Heuer
+    affiliation: Network.bio
+cff-version: 1.2.0
+message: If you use this software, please cite it using the metadata from this file.
+type: software
+abstract: Command line tools for DuckDB.
+keywords:
+  - cli
+  - command-line
+  - duckdb
+  - parquet
+license: Apache-2.0
+repository-code: https://github.com/heuermh/eider
+date-released: 2025-09-17
+version: eider-0.2
