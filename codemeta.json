@@ -12,7 +12,7 @@
   ],
   "codeRepository": "https://github.com/heuermh/eider",
   "dateCreated": "2025-04-04",
-  "dateModified": "2025-09-17",
+  "dateModified": "2026-01-31",
   "datePublished": "2025-09-17",
   "description": "Command line tools for DuckDB.",
   "downloadUrl": "https://github.com/heuermh/eider/releases/tag/eider-0.2",
@@ -30,6 +30,7 @@
     "Dockerfile"
   ],
   "schema:releaseNotes": "**Full Changelog**: https://github.com/heuermh/eider/compare/eider-0.1...eider-0.2",
-  "version": "eider-0.2",
-  "type": "SoftwareSourceCode"
+  "version": "0.3",
+  "type": "SoftwareSourceCode",
+  "identifier": "10.5281/zenodo.18443267"
 }
