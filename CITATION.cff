@@ -13,5 +13,6 @@ keywords:
   - parquet
 license: Apache-2.0
 repository-code: https://github.com/heuermh/eider
-date-released: 2025-09-17
-version: eider-0.2
+date-released: '2026-01-31'
+version: '0.3'
+doi: 10.5281/zenodo.18443267
