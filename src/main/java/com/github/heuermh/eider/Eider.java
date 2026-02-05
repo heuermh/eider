@@ -28,6 +28,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import java.text.DecimalFormatSymbols;
+
 import java.time.Duration;
 
 import java.util.Arrays;
@@ -78,6 +80,9 @@ public final class Eider implements Callable<Integer> {
     @Option(names = { "-i", "--query-path" })
     private Path queryPath;
 
+    @Option(names = { "-d", "--delimiter" })
+    private String delimiter = DEFAULT_DELIMITER;
+
     @Option(names = { "-p", "--parameters" }, mapFallbackValue = "")
     private Map<String, String> parameters;
 
@@ -95,6 +100,9 @@ public final class Eider implements Callable<Integer> {
 
     /** Static logger. */
     static Logger logger;
+
+    /** Default SQL statement delimiter, <code>;</code>. */
+    static final String DEFAULT_DELIMITER = ";";
 
 
     @Override
@@ -117,9 +125,9 @@ public final class Eider implements Callable<Integer> {
             Stopwatch total = Stopwatch.createUnstarted();
             try (Statement statement = connection.createStatement()) {
 
-                // split query into subqueries by `;`
+                // split query into subqueries by delimiter
                 Stopwatch perStatement = Stopwatch.createUnstarted();
-                for (String sql : Splitter.on(';').trimResults().omitEmptyStrings().split(query)) {
+                for (String sql : Splitter.on(delimiter).trimResults().omitEmptyStrings().split(query)) {
 
                     logger.info("Executing SQL subquery \"{}\"...", abbreviate(sql));
                     total.start();
@@ -204,7 +212,7 @@ public final class Eider implements Callable<Integer> {
             sb.append("m ");
         }
         sb.append(duration.toSecondsPart());
-        sb.append("."); // todo: i18n
+        sb.append(DecimalFormatSymbols.getInstance().getDecimalSeparator());
         sb.append(String.format("%03ds", duration.toMillisPart()));
         return sb.toString();
     }
